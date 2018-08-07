@@ -94,10 +94,6 @@ app.get('/categories', function(req,res){
 
 	});
 });
-app.get('/brand/create', function(req, res) {
-	res.render('create_brand',{
-	});
-})
 app.get('/edit', (req,res)=>{
 	var id = req.params.id;
 	res.render('edit');
@@ -118,26 +114,22 @@ app.post('/products/:id/send', function(req, res) {
 		</ul>
 	`;
 
+	// https://git.heroku.com/dbms1819-ecommerce-t07.git
 	//nodemailer
 	let transporter = nodemailer.createTransport({
         host: 'smtp.mail.yahoo.com',
         port: 465,
         secure: true,
         auth: {
-            user: 'iemaniamailer@yahoo.com', 
-            pass: 'custominearmonitor' 
-            /*
-            user: 'iemaniamailer@google.com', 
-            pass: 'custominearmonitor' 
-        host: 'smtp.mail.yahoo.com'
-            */
-        }
+            user: 'lappyshop@yahoo.com', 
+            pass: 'angelikaelton' 
+                  }
     });
 
     let mailOptions = {
-        from: '"IEMania Mailer" <iemaniamailer@yahoo.com>',
-        to: 'angelikafillon@gmail.com',
-        subject: 'IEMania Contact Request',
+        from: '"Lappy Shop" <lappyshop@yahoo.com>',
+        to: 'dbms1819team07@gmail.com',
+        subject: 'Lappy Shop Contact',
         //text: req.body.name,
         html: output
     };
@@ -198,4 +190,5 @@ app.listen(5000,function() {
 	console.log('Server started at port 5000');
 });
 
-// app.listen(PORT);
+app.listen(PORT);
+
