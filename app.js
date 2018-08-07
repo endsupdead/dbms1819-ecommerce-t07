@@ -42,7 +42,7 @@ INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP S
 
 
 
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('ZBook Studio x360 G5', 'Laptop', '8th Generation Intel Core i7 processor with 16 GB memory and 512 GB SSD', 'HP', '142812.19', '/one.png'), ('EliteBook x360 1020 G2', 'Laptop', '7th Generation Intel Core i5 processor with 8 GB memory and 128 GB SSD storage', 'HP', '76670.94','/two.png'), ('mt21 Mobile Thin Client', 'Laptop', 'Intel® Celeron® 3865u with Intel HD Graphics with 4 GB DDR$-2400 SDRAM', 'HP', '25874.46','/three.png'), ('ProBook x360 11 G2 EE Notebook PC', 'Laptop','7th Generation Intel® Core™ m3 processor with 4 GB memory and 128 GB SSD storage', 'HP', 40160.97,'/four.png'), ('255 G6 Notebook PC (ENERGY STAR)', 'Laptop','AMD A6 APU with 8 GB memory and 256 GB SSD storage', 'HP', 27461.85,'/five.png'), ('Stream 11 Pro G4 EE Notebook PC', 'Laptop','Intel® Celeron® processor with 4 GB memory and 128 GB eMMC storage', 'HP', 25345.33,'/six.png');
+INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('ZBook Studio x360 G5', 'Laptop', '8th Generation Intel Core i7 processor with 16 GB memory and 512 GB SSD', 'HP', '142812.19', '/one.png'), ('EliteBook x360 1020 G2', 'Laptop', '7th Generation Intel Core i5 processor with 8 GB memory and 128 GB SSD storage', 'HP', '76670.94','/two.png'), ('mt21 Mobile Thin Client', 'Laptop', 'Intel® Celeron® 3865u with Intel HD Graphics with 4 GB DDR$-2400 SDRAM', 'HP', '25874.46','/three.png'), ('ProBook x360 11 G2 EE Notebook PC', 'Laptop','7th Generation Intel® Core™ m3 processor with 4 GB memory and 128 GB SSD storage', 'HP', 40160.97,'/four.png'), ('255 G6 Notebook PC ', 'Laptop','AMD A6 APU with 8 GB memory and 256 GB SSD storage', 'HP', 27461.85,'/five.png'), ('Stream 11 Pro G4 EE Notebook PC', 'Laptop','Intel® Celeron® processor with 4 GB memory and 128 GB eMMC storage', 'HP', 25345.33,'/six.png');
 
 */
 //View engine setup
@@ -65,7 +65,7 @@ app.get('/', function(req,res) {
 		}
 		res.render('home',{
 			data: list,
-			title: 'Top Products'
+			title: 'HP Products'
 		});
 	});
 });
@@ -123,7 +123,7 @@ app.post('/products/:id/send', function(req, res) {
 
     let mailOptions = {
         from: '"IEMania Mailer" <iemaniamailer@yahoo.com>',
-        to: 'jdvista96@gmail.com, killerbats1com@gmail.com, drobscortz@gmail.com',
+        to: 'angelikafillon@gmail.com',
         subject: 'IEMania Contact Request',
         //text: req.body.name,
         html: output
