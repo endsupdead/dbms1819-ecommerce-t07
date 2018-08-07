@@ -11,7 +11,7 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Angelika Fillon",
+  "author": "Angelika Fillons",
   "license": "",
   "dependencies": {
     "body-parser": "^1.18.3",
