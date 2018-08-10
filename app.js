@@ -83,21 +83,80 @@ app.get('/products/:id', (req,res)=>{
 		});
 	});
 });
-
-app.get('/brands', function(req,res){
+app.get('/brands/create', function(req,res){
 	res.render('brand_create',{
 
 	});
 });
-app.get('/categories', function(req,res){
+app.get('/brands', function(req,res){
+	client.query("SELECT * FROM	products_brand")
+	.then((result)=>{
+			res.render('brands',result);
+
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('ERROR!');
+	});
+
+	
+});
+app.get('/category/create', function(req,res){
 	res.render('category_create',{
 
 	});
 });
-app.get('/brand/create', function(req, res) {
-	res.render('create_brand',{
+
+app.get('/categories', function(req,res){
+	client.query("SELECT * FROM	products_category")
+	.then((result)=>{
+			res.render('categories',result);
+
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('ERROR!');
+	});
+
+	
+});
+app.post('/categories', function(req,res){ //category list with insert new category query
+	var values =[];
+	values = [req.body.category_name];
+	console.log(req.body);
+	console.log(values);
+	client.query("INSERT INTO products_category(name) VALUES($1)", values, (err, res)=>{
+		if (err) {
+			console.log(err.stack)
+			}
+		else {
+			console.log(res.rows[0])
+		}
+	});
+	res.redirect('/categories');
+});
+
+app.get('/brands/create', function(req, res) {
+	res.render('brand_create',{
 	});
 })
+
+app.post('/brands', function(req,res) { //brand list insert 
+	var values =[];
+	values = [req.body.brand_name,req.body.brand_description];
+	console.log(req.body);
+	console.log(values);
+	client.query("INSERT INTO products_brand(brand_name, brand_description) VALUES($1, $2)", values, (err, res)=>{
+		if (err) {
+			console.log(err.stack)
+			}
+		else {
+			console.log(res.rows[0])
+		}
+	});
+	res.redirect('/brands');
+});
+
 app.get('/edit', (req,res)=>{
 	var id = req.params.id;
 	res.render('edit');
@@ -184,7 +243,7 @@ app.get('/product/create', function(req, res) {
 	    both.push(category);
 	    console.log(category);
 	    console.log(both);
-		res.render('create_product',{
+		res.render('product_create',{
 			rows: both
 		});
 	})
@@ -194,6 +253,11 @@ app.get('/product/create', function(req, res) {
 	});
 
 });
+app.post('/insertproduct', function(req, res) {
+	client.query("INSERT INTO products_m1 (name, type, description, brand, price, pic) VALUES ('"+req.body.name+"','"+req.body.category+"','"+req.body.description+"', '"+req.body.brand+"', '"+req.body.price+"','"+req.body.pic+"')");
+	res.redirect('/');
+});
+
 app.listen(5000,function() {
 	console.log('Server started at port 5000');
 });
