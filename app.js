@@ -6,15 +6,15 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 5000
 
-const client = new Client({
-	database: 'd25krtj6fcj9qm',
-	user: 'goqgyehevalloc',
-	password: '32fac540a8a6e8f3c046fb03e49b914edb874bbf6b5b1327779ec95a4a806495',
-	host: 'ec2-23-23-216-40.compute-1.amazonaws.com',
-	port: 5432,
-	ssl: true
-});
-/*
+// const client = new Client({
+// 	database: 'd25krtj6fcj9qm',
+// 	user: 'goqgyehevalloc',
+// 	password: '32fac540a8a6e8f3c046fb03e49b914edb874bbf6b5b1327779ec95a4a806495',
+// 	host: 'ec2-23-23-216-40.compute-1.amazonaws.com',
+// 	port: 5432,
+// 	ssl: true
+// });
+
 const client = new Client({
 	database: 'storedb',
 	user: 'postgres',
@@ -22,7 +22,7 @@ const client = new Client({
 	host: 'localhost',
 	port: 5432
 });
-*/
+
 client.connect()
 	.then(function() {
 		console.log('connected to database!');
@@ -85,7 +85,7 @@ app.get('/products/:id', (req,res)=>{
 });
 
 app.get('/brands', function(req,res){
-	client.query("SELECT * FROM	products_brand")
+	client.query("SELECT * FROM	brands")
 	.then((result)=>{
 			res.render('brands',result);
 	})
@@ -109,7 +109,7 @@ app.get('/category/create', function(req,res){
 });
 
 app.get('/categories', function(req,res){
-	client.query("SELECT * FROM	products_category")
+	client.query("SELECT * FROM	categories")
 	.then((result)=>{
 			res.render('categories',result);
 
@@ -126,8 +126,8 @@ app.post('/categories', function(req,res){ //category list with insert new categ
 	values = [req.body.category_name];
 	console.log(req.body);
 	console.log(values);
-	client.query("INSERT INTO products_category(name) VALUES($1)", values, (err, res)=>{
-		if (err) {
+	client.query("INSERT INTO categories(name) VALUES($1)", values, (err, res)=>{
+		if (errorr) {
 			console.log(err.stack)
 			}
 		else {
@@ -273,7 +273,7 @@ app.post('/updateproduct/:id', function(req, res) {
 	client.query("UPDATE products SET name = '"+req.body.productsname+"', descriptions = '"+req.body.productsdesc+"', price = '"+req.body.productsprice+"', category_id = '"+req.body.category+"', brand_id = '"+req.body.brand+"', pic = '"+req.body.pic+"'WHERE id = '"+req.params.id+"' ;");
 	client.query("UPDATE products_brand SET description = '"+req.body.branddesc+"' WHERE id ='"+req.params.id+"';");
 	
-	res.redirect('/store');
+	res.redirect('/');
 });
 
 
@@ -282,7 +282,7 @@ app.get('/product/create', function(req, res) {
 	 var category = []; 
 	 var brand = [];
 	 var both =[];
-	 client.query('SELECT * FROM products_brand')
+	 client.query('SELECT * FROM brands')
 	.then((result)=>{
 	    brand = result.rows;
 	    console.log('brand:',brand);
@@ -292,7 +292,7 @@ app.get('/product/create', function(req, res) {
 		console.log('error',err);
 		res.send('Error!');
 	});
-    client.query('SELECT * FROM products_category')
+    client.query('SELECT * FROM categories')
 	.then((result)=>{
 	    category = result.rows;
 	    both.push(category);
@@ -309,7 +309,7 @@ app.get('/product/create', function(req, res) {
 
 });
 app.post('/insertproduct', function(req, res) {
-	client.query("INSERT INTO products_m1 (name, type, description, brand, price, pic) VALUES ('"+req.body.product_name+"','"+req.body.product_type+"','"+req.body.product_description+"', '"+req.body.product_brand+"', '"+req.body.product_price+"','"+req.body.product_pic+"')");
+	client.query("INSERT INTO products (name, description, tagline, price, picture, warranty, category_id, brand_id) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"', '"+req.body.price+"', '"+req.body.picture+"','"+req.body.warranty+"', '"+req.body.category_id+"', '"+req.body.brand_id+"')");
 	res.redirect('/');
 });
 
