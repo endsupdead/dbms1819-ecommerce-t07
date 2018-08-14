@@ -6,12 +6,12 @@
 		{{/each}}
 			<div class="controls">
 				{{#each products}}
-				<div class="form-group">
+				{{!-- <div class="form-group">
 					<label class="control-label" for="id">Product ID</label>
 					<div>
 						<input id="productid" name="id" type="text" value="{{this.id}}" class="form-control" required="" readonly="">
 					</div>
-				</div>
+				</div> --}}
 				<div class="form-group">
 					<label class="control-label" for="product_name">Product Name *</label>
 					<div>
@@ -24,12 +24,12 @@
 						<input id="product_description" name="product_description" type="text" value="{{this.product_description}}" class="form-control" required="">
 					</div>
 				</div>
-				<div class="form-group">
+			{{!-- 	<div class="form-group">
 					<label class="control-label" for="tagline">Tagline *</label>
 					<div>
 						<input id="tagline" name="tagline" type="text" value="{{this.tagline}}" class="form-control" required="">
 					</div>
-				</div>
+				</div> --}}
 				<div class="form-group">
 					<label class="control-label" for="price">Price *</label>
 					<div>

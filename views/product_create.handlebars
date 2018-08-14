@@ -10,6 +10,17 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="control-label" for="product_type">Product Category *</label>
+					<div class="text-center">
+						<select name="product_type" class="form-control" required="">
+							<option value="">Choose one..</option>
+						{{#each rows.[1]}}
+						 	<option value="{{this.name}}">{{this.name}}</option>
+						 {{/each}}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="control-label" for="product_description">Product Description *</label>
 					<div>
 						<input id="product_description" name="product_description" type="text" placeholder="Specifications" class="form-control" required="">
@@ -18,40 +29,30 @@
 				<div class="form-group">
 					<label class="control-label" for="price">Price *</label>
 					<div>
-						<input id="price" name="price" type="number" placeholder="8000" class="form-control" required="">
+						<input id="product_price" name="product_price" type="number" placeholder="80000" class="form-control" required="">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="pic">Picture link *</label>
 					<div>
-						<input id="pic" name="pic" type="text" placeholder="/acer.jpg" class="form-control" required="">
+						<input id="product_pic" name="product_pic" type="text" placeholder="/name.png" class="form-control" required="">
 					</div>
 				</div>
+				
 				<div class="form-group">
-					<label class="control-label" for="category_id">Product Category *</label>
+					<label class="control-label" for="product_brand">Brand *</label>
 					<div class="text-center">
-						<select name="category_id" class="form-control" required="">
-							<option value="">Choose one..</option>
-						{{#each rows.[1]}}
-						 	<option value="{{this.id}}">{{this.name}}</option>
-						 {{/each}}
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="brand_id">Brand *</label>
-					<div class="text-center">
-						<select name="brand_id" class="form-control" required="">
-							<option value=''>Choose one..</option>
+						<select name="product_brand" class="form-control" required="">
+							<option value=''>Choose one.</option>
 						{{#each rows.[0]}}
-						 	<option value='{{this.id}}'>{{this.brand_name}}</option>
+						 	<option value={{this.brand_name}}>{{this.brand_name}}</option>
 						 {{/each}}
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="text-center">
-						<button type="submit" class="btn btn-primary btn-medium">Create Product</button>
+						<button type="submit" class="btn btn-primary btn-medium">Add Product</button>
 					</div>
 				</div>
 			</div>
