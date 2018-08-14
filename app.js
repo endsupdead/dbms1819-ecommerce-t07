@@ -57,7 +57,7 @@ app.use(bodyParser.json());
 
 
 app.get('/', function(req,res) {
-	client.query('SELECT * FROM products_m1', (req, data)=>{
+	client.query('SELECT * FROM products', (req, data)=>{
 		var list = [];
 		for (var i = 0; i < data.rows.length; i++) {
 			list.push(data.rows[i]);
@@ -71,7 +71,7 @@ app.get('/', function(req,res) {
 
 app.get('/products/:id', (req,res)=>{
 	var id = req.params.id;
-	client.query('SELECT * FROM products_m1', (req, data)=>{
+	client.query('SELECT * FROM products', (req, data)=>{
 		var list = [];
 		for (var i = 0; i < data.rows.length+1; i++) {
 			if (i==id) {
@@ -205,7 +205,7 @@ app.post('/products/:id/send', function(req, res) {
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        client.query('SELECT * FROM products_m1', (req, data)=>{
+        client.query('SELECT * FROM products', (req, data)=>{
 			var list = [];
 			for (var i = 0; i < data.rows.length+1; i++) {
 				if (i==id) {
@@ -226,33 +226,37 @@ app.post('/products/:id/send', function(req, res) {
 
 
 app.get('/product/update/:id', function(req, res) {
-     var category = []; 
-	 var brand = [];
-	 var both =[];
-	  client.query('SELECT * FROM products_brand;')
-	.then((result)=>{
-		brand = result.rows;
-	    console.log('brand:',brand);
-	    both.push(brand);
-	})
-	.catch((err) => {
-		console.log('error',err);
-		res.send('Error!');
-	});
-    client.query('SELECT * FROM products_category;')
+    var category = [];
+	var brand = [];
+	var product = [];
+	var both = [];
+	client.query('SELECT * FROM categories')
 	.then((result)=>{
 		category = result.rows;
-	  
-	    both.push(category);
-	      console.log('both',both);
+		console.log('category:', category);
+		both.push(category);
 	})
 	.catch((err) => {
 		console.log('error',err);
 		res.send('Error!');
 	});
-	client.query('SELECT * FROM products_m1;')
+	client.query('SELECT * FROM brands')
 	.then((result)=>{
-		res.render('product_update', {
+		brand = result.rows;
+		console.log('brand:', brand);
+		both.push(brand);
+	})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error!');
+	});
+	client.query('SELECT products.product_id AS product_id, products.product_name AS product_name, products.category_id AS category_id, products.brand_id AS brand_id, products.product_price AS product_price, products.product_description AS product_description, products.brand_tagline AS brand_tagline, products.product_picture AS product_picture, products.warranty AS warranty FROM products LEFT JOIN brands ON products.brand_id=brands.brand_id RIGHT JOIN categories ON products.category_id=categories.category_id WHERE products.product_id = '+req.params.id+';')
+	.then((result)=>{
+		product = result.rows[0];
+		both.push(product);
+		console.log(product);
+		console.log(both);
+		res.render('update_product', {
 			rows: result.rows[0],
 			brand: both
 		});
@@ -261,13 +265,12 @@ app.get('/product/update/:id', function(req, res) {
 		console.log('error',err);
 		res.send('Error!');
 	});
-
-	});
+});
 
 
 
 app.post('/updateproduct/:id', function(req, res) {
-	client.query("UPDATE products_m1 SET name = '"+req.body.productsname+"', descriptions = '"+req.body.productsdesc+"', price = '"+req.body.productsprice+"', category_id = '"+req.body.category+"', brand_id = '"+req.body.brand+"', img = '"+req.body.productsimg+"'WHERE id = '"+req.params.id+"' ;");
+	client.query("UPDATE products SET name = '"+req.body.productsname+"', descriptions = '"+req.body.productsdesc+"', price = '"+req.body.productsprice+"', category_id = '"+req.body.category+"', brand_id = '"+req.body.brand+"', pic = '"+req.body.pic+"'WHERE id = '"+req.params.id+"' ;");
 	client.query("UPDATE products_brand SET description = '"+req.body.branddesc+"' WHERE id ='"+req.params.id+"';");
 	
 	res.redirect('/store');
