@@ -4,16 +4,15 @@
 		<form method="POST" action="/insertproduct">
 			<div class="controls">
 				<div class="form-group">
-					<label class="control-label" for="product_name">Product Name *</label>
+					<label class="control-label" for="name">Product Name *</label>
 					<div>
-						<input id="product_name" name="product_name" type="text" placeholder="Brand" class="form-control" required="">
+						<input id="name" name="name" type="text" placeholder="Product Name" class="form-control" required="">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="product_type">Product Category *</label>
+					<label class="control-label" for="category">Product Category *</label>
 					<div class="text-center">
-						<select name="product_type" class="form-control" required="">
-							<option value="">Choose one..</option>
+						<select name="category" class="form-control" required="">
 						{{#each rows.[1]}}
 						 	<option value="{{this.category_name}}">{{this.category_name}}</option>
 						 {{/each}}
@@ -21,29 +20,28 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="product_description">Product Description *</label>
+					<label class="control-label" for="description">Product Description *</label>
 					<div>
-						<input id="product_description" name="product_description" type="text" placeholder="Specifications" class="form-control" required="">
+						<input id="description" name="description" type="text" placeholder="Specifications" class="form-control" required="">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="price">Price *</label>
 					<div>
-						<input id="product_price" name="product_price" type="number" placeholder="80000" class="form-control" required="">
+						<input id="price" name="price" type="number" placeholder="80000" class="form-control" required="">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="pic">Picture link *</label>
 					<div>
-						<input id="product_pic" name="product_pic" type="text" placeholder="/name.png" class="form-control" required="">
+						<input id="picture" name="picture" type="text" placeholder="/name.png or imageurl" class="form-control" required="">
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label" for="product_brand">Brand *</label>
 					<div class="text-center">
-						<select name="product_brand" class="form-control" required="">
-							<option value=''>Choose one.</option>
+						<select name="brand" class="form-control" required="">
 						{{#each rows.[0]}}
 						 	<option value={{this.brand_name}}>{{this.brand_name}}</option>
 						 {{/each}}
