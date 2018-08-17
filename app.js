@@ -4,8 +4,7 @@ const { Client } = require('pg');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const PORT = process.env.PORT || 5000
-
+const PORT = process.env.PORT || 8080
 // const client = new Client({
 // 	database: 'd25krtj6fcj9qm',
 // 	user: 'goqgyehevalloc',
@@ -28,23 +27,9 @@ client.connect()
 		console.log('connected to database!');
 	})
 	.catch(function() {
-		console.log('Ayaw ng database! Mali');
+		console.log('Ayaw ng database! May mali ka sa code');
 	})
 
-/*
-CREATE TABLE products_m1(id SERIAL PRIMARY KEY, name varchar(80), type varchar(80), description varchar(300), brand varchar(80), price float(10), pic varchar(80));
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP ZBook Studio x360 G5', 'Laptop', '8th Generation Intel Core i7 processor with 16 GB memory and 512 GB SSD', 'HP', '142812.19', '/one.png');
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP EliteBook x360 1020 G2', 'Laptop', '7th Generation Intel Core i5 processor with 8 GB memory and 128 GB SSD storage', 'HP', '76670.94','/two.png');
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP mt21 Mobile Thin Client', 'Laptop', 'Intel® Celeron® 3865u with Intel HD Graphics with 4 GB DDR$-2400 SDRAM', 'HP', '25874.46','/three.png');
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP ProBook x360 11 G2 EE Notebook PC', 'Laptop','7th Generation Intel® Core™ m3 processor with 4 GB memory and 128 GB SSD storage', 'HP', 40160.97,'/four.png');
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP 255 G6 Notebook PC (ENERGY STAR)', 'Laptop','AMD A6 APU with 8 GB memory and 256 GB SSD storage', 'Empire Ears', 27461.85,'/five.png');
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('HP Stream 11 Pro G4 EE Notebook PC', 'Laptop','Intel® Celeron® processor with 4 GB memory and 128 GB eMMC storage', 'HP', 25345.33,'/six.png');
-
-
-INSERT INTO products_m1(name, type, description, brand, price, pic) VALUES('ZBook Studio x360 G5', 'Laptop', '8th Generation Intel Core i7 processor with 16 GB memory and 512 GB SSD', 'HP', '142812.19', '/one.png'), ('EliteBook x360 1020 G2', 'Laptop', '7th Generation Intel Core i5 processor with 8 GB memory and 128 GB SSD storage', 'HP', '76670.94','/two.png'), ('Nitro 5', 'Laptop', 'Intel Core i7 with DDR$ 8GB memory and 256 GB SSD', 'Acer', '72999', '/three.png'), ('Aspire E1-572G', 'Laptop', 'Intel Core i7 with DDR3 4GB RAM and 1TB Storage', 'Acer', '37990', '/four.png'), ('GL63 8RC', 'Laptop', 'Intel Core i7 with 8GB RAM and 1TB Storage', 'MSI', '84000', '/five.png'), ('GV62 7RD', 'Laptop', 'Intel Core i7 with 8GB RAM and 2TB Storage', 'MSI', '74000', '/six.png');
-
-*/
-//View engine setup
 
 //View engine setup
 const app = express();
@@ -69,20 +54,8 @@ app.get('/', function(req,res) {
 	});
 });
 
-app.get('/products/:id', (req,res)=>{
-	var id = req.params.id;
-	client.query('SELECT * FROM products', (req, data)=>{
-		var list = [];
-		for (var i = 0; i < data.rows.length+1; i++) {
-			if (i==id) {
-				list.push(data.rows[i-1]);
-			}
-		}
-		res.render('products',{
-			data: list
-		});
-	});
-});
+
+
 
 app.get('/brands', function(req,res){
 	client.query("SELECT * FROM	brands")
@@ -92,7 +65,7 @@ app.get('/brands', function(req,res){
 	})
 	.catch((err)=>{
 		console.log('error',err);
-		res.send('ERROR!');
+		res.send('Error brands list!');
 	});
 	
 });
@@ -101,6 +74,10 @@ app.get('/brands/create', function(req, res) {
 	res.render('brand_create');
 });
 
+app.post('/insertbrand', function(req,res) { //brand list insert 
+	client.query("INSERT INTO brands (brand_name,brand_description) VALUES ('"+req.body.brand_name+"','"+req.body.brand_description+"')");
+	res.redirect('/brands');
+});
 
 app.get('/category/create', function(req,res){
 	res.render('category_create',{
@@ -116,106 +93,94 @@ app.get('/categories', function(req,res){
 	})
 	.catch((err)=>{
 		console.log('error',err);
-		res.send('ERROR!');
+		res.send('Error category list!');
 	});
-
-	
 });
-app.post('/categories', function(req,res){ //category list with insert new category query
-	var values =[];
-	values = [req.body.category_name];
-	console.log(req.body);
-	console.log(values);
-	client.query("INSERT INTO categories(name) VALUES($1)", values, (err, res)=>{
-		if (errorr) {
-			console.log(err.stack)
-			}
-		else {
-			console.log(res.rows[0])
-		}
-	});
+
+
+app.post('/insertcategory', function(req,res){
+	client.query("INSERT INTO categories (category_name) VALUES ('"+req.body.category_name+"')");
 	res.redirect('/categories');
 });
 
 
-app.post('/brands/creating', function(req,res) { //brand list insert 
-	client.query("INSERT INTO brands (brand_name,brand_description) VALUES ('"+req.body.brand_name+"','"+req.body.brand_description+"')");
-	res.redirect('/brands');
+app.get('/products/:id', (req, res) => {
+	client.query('SELECT products.id AS id, products.name AS product_name, products.category_id AS category_id, products.brand_id AS brand_id, products.price AS product_price, products.specification AS product_specification, products.picture AS product_picture, brands.brand_name AS brand_name,  categories.category_name AS category_name FROM products LEFT JOIN brands ON products.brand_id=brands.id RIGHT JOIN categories ON products.category_id=categories.id WHERE products.id = '+req.params.id+';')
+		.then((results)=>{
+		console.log ('results?',results);
+		res.render('products',{
+			id: results.rows[0].id,
+			name: results.rows[0].product_name,
+			specification: results.rows[0].product_specification,
+			price: results.rows[0].product_price,
+			picture: results.rows[0].product_picture,
+			brand_name: results.rows[0].brand_name,
+			category_name: results.rows[0].category_name,
+			})
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error product details!');
+		});
 });
 
-app.get('/edit', (req,res)=>{
-	var id = req.params.id;
-	res.render('edit');
-});
 
 app.post('/products/:id/send', function(req, res) {
-	console.log(req.body);
-	var id = req.params.id;
-	const output = `
-		<p>You have a new contact request</p>
-		<h3>Contact Details</h3>
-		<ul>
-			<li>Customer Name: ${req.body.name}</li>
-			<li>Phone: ${req.body.phone}</li>
-			<li>Email: ${req.body.email}</li>
-			<li>Product ID: ${req.body.productid}</li>
-			<li>Quantity: ${req.body.quantity}</li>
-		</ul>
-	`;
-
-	//nodemailer
-	let transporter = nodemailer.createTransport({
-        host: 'smtp.mail.yahoo.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'iemaniamailer@yahoo.com', 
-            pass: 'custominearmonitor' 
-            /*
-            user: 'iemaniamailer@google.com', 
-            pass: 'custominearmonitor' 
-        host: 'smtp.mail.yahoo.com'
-            */
-        }
-    });
-
-    let mailOptions = {
-        from: '"IEMania Mailer" <iemaniamailer@yahoo.com>',
-        to: 'angelikafillon@gmail.com',
-        subject: 'IEMania Contact Request',
-        //text: req.body.name,
-        html: output
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-        client.query('SELECT * FROM products', (req, data)=>{
-			var list = [];
-			for (var i = 0; i < data.rows.length+1; i++) {
-				if (i==id) {
-					list.push(data.rows[i-1]);
+	client.query("INSERT INTO customers (email,first_name,last_name,street,city,state,zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+"','"+req.body.city+"','"+req.body.state+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = '"+req.body.first_name+"', last_name = '"+req.body.last_name+"', street = '"+req.body.street+"',city = '"+req.body.city+"',state = '"+req.body.state+"',zipcode = '"+req.body.zipcode+"' WHERE customers.email ='"+req.body.email+"';");
+	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
+   	.then((results)=>{
+   		var id = results.rows[0].id;
+   		console.log(id);
+   		client.query("INSERT INTO orders (customer_id,product_id,quantity) VALUES ("+id+","+req.params.id+",'"+req.body.quantity+"')")
+   		.then((results)=>{
+			var maillist = ['dbms1819team07@gmail.com',req.body.email];
+			var transporter = nodemailer.createTransport({
+				host: 'smtp.gmail.com',
+				port: 465,
+				secure: true,
+				auth: {
+					user: 'dbms1819team07@gmail.com',
+					pass: 'angelikaelton'
 				}
-			}
-			res.render('products',{
-				data: list,
-				msg: '---Email has been sent---'
 			});
-		});
-     });
+      const mailOptions = {
+          from: '"Lappy Shop" <dbms1819team07@gmail.com>', // sender address
+          to: maillist, // list of receivers
+          subject: 'Order Details from Lappy Shop', // Subject line
+          html: 
+				'<p>You have a new contact request</p>'+
+				'<h3>Customer Details</h3>'+
+					'<ul>'+
+						'<li>Customer Name: '+req.body.first_name+' '+req.body.last_name+'</li>'+
+						'<li>Email: '+req.body.email+'</li>'+
+						'<li>Product Name: '+req.body.name+'</li>'+
+						'<li>Quantity: '+req.body.quantity+'</li>'+
+					'</ul>'
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {	
+          if (error) {
+              return console.log(error);
+          }
+          console.log('Message %s sent: %s', info.messageId, info.response);;
+          res.redirect('/');
+          });
+   		})
+   		.catch((err)=>{
+   		console.log('error',err);
+		res.send('Error sa e-mail!');
+   		});
+   	})
+   	.catch((err) => {
+		console.log('error',err);
+		res.send('Error sa products send!');
+	});
 });
 
 
 
-
-
-
-app.get('/product/update/:id', function(req, res) {
-    var category = [];
+app.get('/product/update/:id', function(req,res) {
+	var category = [];
 	var brand = [];
 	var product = [];
 	var both = [];
@@ -227,7 +192,7 @@ app.get('/product/update/:id', function(req, res) {
 	})
 	.catch((err) => {
 		console.log('error',err);
-		res.send('Error!');
+		res.send('Error dito!');
 	});
 	client.query('SELECT * FROM brands')
 	.then((result)=>{
@@ -237,31 +202,28 @@ app.get('/product/update/:id', function(req, res) {
 	})
 	.catch((err) => {
 		console.log('error',err);
-		res.send('Error!');
+		res.send('Error sa product update 1!');
 	});
-	client.query('SELECT products.product_id AS product_id, products.product_name AS product_name, products.category_id AS category_id, products.brand_id AS brand_id, products.product_price AS product_price, products.product_description AS product_description, products.brand_tagline AS brand_tagline, products.product_picture AS product_picture, products.warranty AS warranty FROM products LEFT JOIN brands ON products.brand_id=brands.brand_id RIGHT JOIN categories ON products.category_id=categories.category_id WHERE products.product_id = '+req.params.id+';')
+	client.query('SELECT products.id AS id, products.name AS name, products.category_id AS category_id, products.brand_id AS brand_id, products.price AS price, products.specification AS specification, products.picture AS picture FROM products LEFT JOIN brands ON products.brand_id=brands.id RIGHT JOIN categories ON products.category_id=categories.id WHERE products.id = '+req.params.id+';')
 	.then((result)=>{
 		product = result.rows[0];
 		both.push(product);
 		console.log(product);
 		console.log(both);
-		res.render('update_product', {
+		res.render('product_update', {
 			rows: result.rows[0],
 			brand: both
 		});
 	})
 	.catch((err) => {
 		console.log('error',err);
-		res.send('Error!');
-	});
+		res.send('Error sa product update 2!');
+	});	
 });
 
 
-
 app.post('/updateproduct/:id', function(req, res) {
-	client.query("UPDATE products SET name = '"+req.body.productsname+"', descriptions = '"+req.body.productsdesc+"', price = '"+req.body.productsprice+"', category_id = '"+req.body.category+"', brand_id = '"+req.body.brand+"', pic = '"+req.body.pic+"'WHERE id = '"+req.params.id+"' ;");
-	client.query("UPDATE products_brand SET description = '"+req.body.branddesc+"' WHERE id ='"+req.params.id+"';");
-	
+	client.query("UPDATE products SET name = '"+req.body.name+"', specification = '"+req.body.specification+"', price = '"+req.body.price+"', category_id = '"+req.body.category_id+"', brand_id = '"+req.body.brand_id+"', picture = '"+req.body.picture+"'WHERE id = '"+req.params.id+"' ;");	
 	res.redirect('/');
 });
 
@@ -279,7 +241,7 @@ app.get('/product/create', function(req, res) {
 	})
 	.catch((err) => {       
 		console.log('error',err);
-		res.send('Error!');
+		res.send('Error product create 1!');
 	});
     client.query('SELECT * FROM categories')
 	.then((result)=>{
@@ -288,22 +250,71 @@ app.get('/product/create', function(req, res) {
 	    console.log(category);
 	    console.log(both);
 		res.render('product_create',{
-			rows: both
+		rows: both
 		});
 	})
 	.catch((err) => {
 		console.log('error',err);
-		res.send('Error!');
+		res.send('Error product create 2!');
 	});
 
 });
 app.post('/insertproduct', function(req, res) {
-	client.query("INSERT INTO products (name, description, tagline, price, picture, warranty, category_id, brand_id) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"', '"+req.body.price+"', '"+req.body.picture+"','"+req.body.warranty+"', '"+req.body.category_id+"', '"+req.body.brand_id+"')");
+	client.query("INSERT INTO products (name, specification, price, picture, category_id, brand_id) VALUES ('"+req.body.name+"','"+req.body.specification+"', '"+req.body.price+"', '"+req.body.picture+"', '"+req.body.category_id+"', '"+req.body.brand_id+"')");
 	res.redirect('/');
 });
 
-app.listen(5000,function() {
-	console.log('Server started at port 5000');
+
+
+app.get('/customers', function(req, res) {
+	client.query('SELECT * FROM customers ORDER BY id DESC')
+	.then((result)=>{
+		console.log('results?', result);
+		res.render('customers', result);
+	})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error sa customer list!');
+	});
 });
 
-// app.listen(PORT);
+app.get('/customer/:id', (req, res) => {
+	client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,customers.street AS street,customers.city AS city,customers.state AS state,customers.zipcode AS zipcode,products.name AS name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id WHERE customers.id = "+req.params.id+"ORDER BY purchase_date DESC;")
+	.then((result)=>{
+	   console.log('results?', result);
+		res.render('customer_details', {
+			first_name: result.rows[0].first_name,
+			last_name: result.rows[0].last_name,
+			email: result.rows[0].email,
+			street: result.rows[0].street,
+			city: result.rows[0].city,
+			state: result.rows[0].state,
+			zipcode: result.rows[0].zipcode,
+			rows: result.rows
+})
+	})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error sa customer details!');
+	});
+
+});
+
+
+app.get('/orders', function(req, res) {
+	 client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,products.name AS name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id ORDER BY purchase_date DESC;")
+	.then((result)=>{
+	    console.log('results?', result);
+		res.render('orders', result);
+		})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error sa order list!');
+	});
+
+});
+
+
+app.listen(8080,function() {
+	console.log('Server started at port 8080');
+});

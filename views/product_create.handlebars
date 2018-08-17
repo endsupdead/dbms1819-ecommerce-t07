@@ -12,17 +12,17 @@
 				<div class="form-group">
 					<label class="control-label" for="category">Product Category *</label>
 					<div class="text-center">
-						<select name="category" class="form-control" required="">
+						<select id="category_id" name="category_id" class="form-control" required="">
 						{{#each rows.[1]}}
-						 	<option value="{{this.category_name}}">{{this.category_name}}</option>
+						 	<option value="{{this.id}}">{{this.category_name}}</option>
 						 {{/each}}
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="description">Product Description *</label>
+					<label class="control-label" for="specification">Product Description *</label>
 					<div>
-						<input id="description" name="description" type="text" placeholder="Specifications" class="form-control" required="">
+						<input id="specification" name="specification" type="text" placeholder="Specifications" class="form-control" required="">
 					</div>
 				</div>
 				<div class="form-group">
@@ -39,11 +39,11 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label" for="product_brand">Brand *</label>
+					<label class="control-label" for="brand">Brand *</label>
 					<div class="text-center">
-						<select name="brand" class="form-control" required="">
+						<select id="brand_id" name="brand_id" class="form-control" required="">
 						{{#each rows.[0]}}
-						 	<option value={{this.brand_name}}>{{this.brand_name}}</option>
+						 	<option value="{{this.id}}">{{this.brand_name}}</option>
 						 {{/each}}
 						</select>
 					</div>

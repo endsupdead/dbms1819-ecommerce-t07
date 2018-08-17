@@ -1,0 +1,18 @@
+<div class="container">
+	<div class="jumbotron mt-2">
+		<h1 align="center">Orders</h1>
+		{{#each rows}}
+			<div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
+				<div class="card bg-secondary text-light center">
+					<div class="card-body">
+						<h6 class="card-title">Name:           {{first_name}}{{last_name}}</h6>
+						<h6 class="card-title">E-mail:         {{email}}</h6>
+						<h6 class="card-title">Product  :      {{name}}</h6>
+						<h6 class="card-title">Quantity:       {{quantity}}</h6>
+						<h6 class="card-title">Order Date:     {{purchase_date}}</h6>
+					</div>
+				</div>
+			</div>
+		{{/each}}
+	</div>
+</div>
