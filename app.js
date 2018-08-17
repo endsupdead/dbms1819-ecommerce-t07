@@ -5,22 +5,23 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 8080
-// const client = new Client({
-// 	database: 'd25krtj6fcj9qm',
-// 	user: 'goqgyehevalloc',
-// 	password: '32fac540a8a6e8f3c046fb03e49b914edb874bbf6b5b1327779ec95a4a806495',
-// 	host: 'ec2-23-23-216-40.compute-1.amazonaws.com',
-// 	port: 5432,
-// 	ssl: true
-// });
 
 const client = new Client({
-	database: 'storedb',
-	user: 'postgres',
-	password: 'admin',
-	host: 'localhost',
-	port: 5432
+	database: 'd25krtj6fcj9qm',
+	user: 'goqgyehevalloc',
+	password: '32fac540a8a6e8f3c046fb03e49b914edb874bbf6b5b1327779ec95a4a806495',
+	host: 'ec2-23-23-216-40.compute-1.amazonaws.com',
+	port: 5432,
+	ssl: true
 });
+
+// const client = new Client({
+// 	database: 'storedb',
+// 	user: 'postgres',
+// 	password: 'admin',
+// 	host: 'localhost',
+// 	port: 5432
+// });
 
 client.connect()
 	.then(function() {
@@ -318,3 +319,5 @@ app.get('/orders', function(req, res) {
 app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
+
+app.listen(PORT);
