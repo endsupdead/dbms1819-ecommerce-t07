@@ -290,7 +290,7 @@ app.get('/customer/:id', (req, res) => {
 			city: result.rows[0].city,
 			state: result.rows[0].state,
 			zipcode: result.rows[0].zipcode,
-			rows: result.rows
+			rows: result.rows[0]
 })
 	})
 	.catch((err) => {
