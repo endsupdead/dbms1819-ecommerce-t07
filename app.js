@@ -128,7 +128,7 @@ app.get('/products/:id', (req, res) => {
 
 app.post('/products/:id/send', function(req, res) {
 	client.query("INSERT INTO customers (email,first_name,last_name,street,city,state,zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+"','"+req.body.city+"','"+req.body.state+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = '"+req.body.first_name+"', last_name = '"+req.body.last_name+"', street = '"+req.body.street+"',city = '"+req.body.city+"',state = '"+req.body.state+"',zipcode = '"+req.body.zipcode+"' WHERE customers.email ='"+req.body.email+"';");
-	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
+//	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
    	.then((results)=>{
    		var id = results.rows[0].id;
    		console.log(id);
@@ -291,7 +291,7 @@ app.get('/customer/:id', (req, res) => {
 			city: result.rows[0].city,
 			state: result.rows[0].state,
 			zipcode: result.rows[0].zipcode,
-			rows: result.rows[0]
+			rows: result.rows
 })
 	})
 	.catch((err) => {
