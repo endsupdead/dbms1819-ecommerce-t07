@@ -46,7 +46,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.get('/admin/products', function(req,res) {
+// app.get('/', (req,res) => {
+// 		res.redirect('/home');
+// 	});
+
+app.get('/', function(req, res) {
+  res.redirect('/home');
+});
+
+app.get('/home', function(req,res) {
 	client.query('SELECT * FROM products', (req, data)=>{
 		var list = [];
 		for (var i = 0; i < data.rows.length; i++) {
@@ -58,6 +66,7 @@ app.get('/admin/products', function(req,res) {
 		});
 	});
 });
+
 
 
 
@@ -406,4 +415,4 @@ app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
