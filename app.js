@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.get('/', function(req,res) {
+app.get('/admin/products', function(req,res) {
 	client.query('SELECT * FROM products', (req, data)=>{
 		var list = [];
 		for (var i = 0; i < data.rows.length; i++) {
