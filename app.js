@@ -4,6 +4,10 @@ const { Client } = require('pg');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+var Handlebars = require("handlebars");
+var MomentHandler = require("handlebars.moment");
+const renderLayouts = require('layouts');
+MomentHandler.registerHelpers(Handlebars);
 const PORT = process.env.PORT || 8080
 
 const client = new Client({
@@ -57,51 +61,23 @@ app.get('/', function(req,res) {
 
 
 
-
-app.get('/brands', function(req,res){
-	client.query("SELECT * FROM	brands")
-	.then((result)=>{
-		console.log('results?',result);
-			res.render('brands',result);
-	})
-	.catch((err)=>{
-		console.log('error',err);
-		res.send('Error brands list!');
-	});
-	
-});
-
 app.get('/brands/create', function(req, res) {
 	res.render('brand_create');
 });
 
 app.post('/insertbrand', function(req,res) { //brand list insert 
 	client.query("INSERT INTO brands (brand_name,brand_description) VALUES ('"+req.body.brand_name+"','"+req.body.brand_description+"')");
-	res.redirect('/brands');
+	res.redirect('/admin/brandcreate');
 });
 
-app.get('/category/create', function(req,res){
-	res.render('category_create',{
 
-	});
-});
 
-app.get('/categories', function(req,res){
-	client.query("SELECT * FROM	categories")
-	.then((result)=>{
-			res.render('categories',result);
 
-	})
-	.catch((err)=>{
-		console.log('error',err);
-		res.send('Error category list!');
-	});
-});
 
 
 app.post('/insertcategory', function(req,res){
 	client.query("INSERT INTO categories (category_name) VALUES ('"+req.body.category_name+"')");
-	res.redirect('/categories');
+	res.redirect('/admin/categorycreate');
 });
 
 
@@ -127,12 +103,12 @@ app.get('/products/:id', (req, res) => {
 
 
 app.post('/products/:id/send', function(req, res) {
-	client.query("INSERT INTO customers (email,first_name,last_name,street,city,state,zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+"','"+req.body.city+"','"+req.body.state+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = '"+req.body.first_name+"', last_name = '"+req.body.last_name+"', street = '"+req.body.street+"',city = '"+req.body.city+"',state = '"+req.body.state+"',zipcode = '"+req.body.zipcode+"' WHERE customers.email ='"+req.body.email+"';");
+	client.query("INSERT INTO customers (email,first_name,last_name,street,city,state,zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+"','"+req.body.city+"','"+req.body.state+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = '"+req.body.first_name+"', last_name = '"+req.body.last_name+"', street = '"+req.body.street+"',city = '"+req.body.city+"',state = '"+req.body.state+"',zipcode = '"+req.body.zipcode+"' WHERE customers.email ='"+req.body.email+"';")
 //	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
    	.then((results)=>{
    		var id = results.rows[0].id;
    		console.log(id);
-   		client.query("INSERT INTO orders (customer_id,product_id,quantity) VALUES ("+id+","+req.params.id+",'"+req.body.quantity+"')")
+   		client.query("INSERT INTO orders (customer_id,product_id,purchase_date,quantity) VALUES ("+id+","+req.params.id+",'"+req.body.purchase_date+"','"+req.body.quantity+"')")
    		.then((results)=>{
 			var maillist = ['dbms1819team07@gmail.com',req.body.email];
 			var transporter = nodemailer.createTransport({
@@ -260,6 +236,8 @@ app.get('/product/create', function(req, res) {
 	});
 
 });
+
+
 app.post('/insertproduct', function(req, res) {
 	client.query("INSERT INTO products (name, specification, price, picture, category_id, brand_id) VALUES ('"+req.body.name+"','"+req.body.specification+"', '"+req.body.price+"', '"+req.body.picture+"', '"+req.body.category_id+"', '"+req.body.brand_id+"')");
 	res.redirect('/');
@@ -267,11 +245,11 @@ app.post('/insertproduct', function(req, res) {
 
 
 
-app.get('/customers', function(req, res) {
+app.get('/admin/customers', function(req, res) {
 	client.query('SELECT * FROM customers ORDER BY id DESC')
 	.then((result)=>{
 		console.log('results?', result);
-		res.render('customers', result);
+		res.render('admin/admin_customers', result);
 	})
 	.catch((err) => {
 		console.log('error',err);
@@ -316,8 +294,116 @@ app.get('/orders', function(req, res) {
 });
 
 
+app.get('/time', function(req, res) {
+	res.render('time');
+});
+
+app.get('/admin', function(req, res) {
+	res.render('admin/admin', {
+		published: true
+	});
+});
+
+
+
+app.get('/categories', function(req,res){
+	client.query("SELECT * FROM	categories")
+	.then((result)=>{
+			res.render('categories',result);
+
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error category list!');
+	});
+});
+
+app.get('/admin/categorycreate', function(req, res) {
+	client.query("SELECT * FROM	categories")
+	.then((result)=>{
+	res.render('admin/admin_category_create.handlebars',result);
+		published: true
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error category list!');
+	});
+});
+
+app.get('/admin/brandcreate', function(req, res) {
+	client.query("SELECT * FROM	brands")
+	.then((result)=>{
+		console.log('results?',result);
+			res.render('admin/admin_brand_create',result);
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error brands list!');
+	});
+	
+});
+
+
+app.get('/brands', function(req,res){
+	client.query("SELECT * FROM	brands")
+	.then((result)=>{
+		console.log('results?',result);
+			res.render('brands',result);
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error brands list!');
+	});
+	
+});
+
+app.get('/admin/productcreate', function(req, res) {
+	 var category = []; 
+	 var brand = [];
+	 var both =[];
+	 client.query('SELECT * FROM brands')
+	.then((result)=>{
+	    brand = result.rows;
+	    console.log('brand:',brand);
+	     both.push(brand);
+	})
+	.catch((err) => {       
+		console.log('error',err);
+		res.send('Error product create 1!');
+	});
+    client.query('SELECT * FROM categories')
+	.then((result)=>{
+	    category = result.rows;
+	    both.push(category);
+	    console.log(category);
+	    console.log(both);
+		res.render('admin/admin_product_create',{
+		rows: both
+		});
+	})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error product create 2!');
+	});
+
+});
+
+
+
+
+
+
+
+
+app.get('/customersss', function(req, res) {
+	res.render('customers/customer', {
+		published: true
+	});
+});
+
+
 app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);

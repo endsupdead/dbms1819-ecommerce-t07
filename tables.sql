@@ -31,14 +31,14 @@ CREATE TABLE "products" (
 );
 
 CREATE TABLE "orders" (
-  "order_id" SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "customer_id" INT REFERENCES customers(id),
   "product_id" INT REFERENCES products(id),
-  "purchase_date" timestamp default current_timestamp,
+  "purchase_date" VARCHAR(50),
   "quantity" INT
 );
 
-CREATE TABLE "customer_fave_products" (
+CREATE TABLE "faveproducts" (
   "id" SERIAL PRIMARY KEY,
   "customer_id" INT REFERENCES customers(id),
   "product_id" INT REFERENCES products(id)

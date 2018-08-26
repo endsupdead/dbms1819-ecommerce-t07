@@ -1,0 +1,56 @@
+  <head>
+{{>title_home}}
+  </head>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
+      {{> admin_nav }}
+    </nav>
+
+<div class="container">
+  <div class="jumbotron mt-2">
+    <h1 align="center">Brands</h1>
+    {{#each rows}}
+      <div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
+        <div class="card bg-secondary text-light center">
+          {{!-- <img class="card-img-top" src="{{this.pic}}" alt=""> --}}
+          <div class="card-body">
+            <h4 class="card-title">{{this.brand_name}}</h4>
+            <p class="card-text">
+              <h7 class="card-title">{{this.brand_description}}</h7>
+            </p>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="container pb-5 mb-5">
+  <div class="jumbotron mt-2">
+    <h2>Create Brand</h2>
+    <form method="POST" action="/insertbrand">
+      <div class="controls">
+        <div class="form-group">
+          <label class="control-label" for="brand_name">Brand Name *</label>
+          <div>
+            <input id="brand_name" name="brand_name" type="text" placeholder="Brand name" class="form-control" required="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="brand_description">Description *</label>
+          <div>
+            <textarea id="brand_description" name="brand_description" placeholder="Description" rows='30' class="form-control" required=""></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg" title="Submit contact form">
+            Create Brand
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>{{> footer }}</footer>
