@@ -280,11 +280,11 @@ app.get('/admin/customer', function(req, res) {
 	});
 });
 
-app.get('/admin/customer/:id', (req, res) => {
+app.get('/admin/customer:id', (req, res) => {
 	client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,customers.street AS street,customers.city AS city,customers.state AS state,customers.zipcode AS zipcode,products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id WHERE customers.id = "+req.params.id+"ORDER BY purchase_date DESC;")
 	.then((result)=>{
 	  	console.log('results?', result);
-			res.render('admin_customer_details', {
+			res.render('admin/admin_customer_details', {
 			first_name: result.rows[0].first_name,
 			last_name: result.rows[0].last_name,
 			email: result.rows[0].email,
@@ -429,4 +429,4 @@ app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
