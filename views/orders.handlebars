@@ -15,12 +15,15 @@
 					<div class="card-body">
 						<h6 class="card-title">Name:           {{first_name}}{{last_name}}</h6>
 						<h6 class="card-title">E-mail:         {{email}}</h6>
-						<h6 class="card-title">Product  :      {{name}}</h6>
+						<h6 class="card-title">Product  :      {{model_name}}</h6>
 						<h6 class="card-title">Quantity:       {{quantity}}</h6>
-						<h6 class="card-title">Order Date:     {{purchase_date}}</h6>
+						<h6 class="card-title">Order Date:     {{moment purchase_date format="MMM DD, YYYY HH:mm a"}}</h6>
+						<h6 class="card-title">Order Date:     {{purchase_date().tz("Asia/Manila").format();}}</h6>
 					</div>
 				</div>
 			</div>
 		{{/each}}
 	</div>
 </div>
+
+{{> footer }}
