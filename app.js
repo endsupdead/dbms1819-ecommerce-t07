@@ -60,7 +60,7 @@ app.get('/home', function(req,res) {
 		for (var i = 0; i < data.rows.length; i++) {
 			list.push(data.rows[i]);
 		}
-		res.render('home',{
+		res.render('customers/customer_home',{
 			data: list,
 			title: 'Lappy Products'
 		});
@@ -376,6 +376,22 @@ app.get('/brands', function(req,res){
 	
 });
 
+
+
+app.get('/admin/orders', function(req, res) {
+ client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id ORDER BY purchase_date DESC;")
+	.then((result)=>{
+	    console.log('results?', result);
+		res.render('admin/admin_orders', result);
+		})
+	.catch((err) => {
+		console.log('error',err);
+		res.send('Error sa order list!');
+	});
+
+});
+
+
 app.get('/admin/productcreate', function(req, res) {
 	 var category = []; 
 	 var brand = [];
@@ -419,4 +435,4 @@ app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
