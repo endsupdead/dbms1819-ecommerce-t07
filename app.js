@@ -407,12 +407,6 @@ app.get('/admin/productcreate', function(req, res) {
 
 });
 
-var moment = require('moment');
-moment('1977-08-20 14:29:00 UTC').format('MMMM DD, YYYY, hh:mm:ss a');
-
-
-
-
 
 app.get('/customersss', function(req, res) {
 	res.render('customers/customer', {
