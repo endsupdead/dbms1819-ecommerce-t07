@@ -30,7 +30,7 @@ CREATE TABLE "products" (
   "brand_id" INT REFERENCES brands(id)
 );
 
-CREATE TABLE "faveproducts" (
+CREATE TABLE "favorites" (
   "id" SERIAL PRIMARY KEY,
   "customer_id" INT REFERENCES customers(id),
   "product_id" INT REFERENCES products(id)

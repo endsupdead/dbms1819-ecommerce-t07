@@ -91,7 +91,7 @@ app.post('/insertcategory', function(req,res){
 
 
 app.get('/products/:id', (req, res) => {
-	client.query('SELECT products.id AS id, products.model_name AS product_model_name, products.category_id AS category_id, products.brand_id AS brand_id, products.price AS product_price, products.specification AS product_specification, products.picture AS product_picture, brands.brand_name AS brand_name,  categories.category_name AS category_name FROM products LEFT JOIN brands ON products.brand_id=brands.id RIGHT JOIN categories ON products.category_id=categories.id WHERE products.id = '+req.params.id+';')
+	client.query('SELECT products.id AS id, products.model_name AS model_name, products.category_id AS category_id, products.brand_id AS brand_id, products.price AS product_price, products.specification AS product_specification, products.picture AS product_picture, brands.brand_name AS brand_name,  categories.category_name AS category_name FROM products LEFT JOIN brands ON products.brand_id=brands.id RIGHT JOIN categories ON products.category_id=categories.id WHERE products.id = '+req.params.id+';')
 		.then((results)=>{
 		console.log ('results?',results);
 		res.render('products',{
@@ -113,11 +113,11 @@ app.get('/products/:id', (req, res) => {
 
 app.post('/products/:id/send', function(req, res) {
 	client.query("INSERT INTO customers (email,first_name,last_name,street,city,state,zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+"','"+req.body.city+"','"+req.body.state+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = '"+req.body.first_name+"', last_name = '"+req.body.last_name+"', street = '"+req.body.street+"',city = '"+req.body.city+"',state = '"+req.body.state+"',zipcode = '"+req.body.zipcode+"' WHERE customers.email ='"+req.body.email+"';")
-//	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
+	client.query("SELECT id FROM customers WHERE email = '"+req.body.email+"';")
    	.then((results)=>{
    		var id = results.rows[0].id;
    		console.log(id);
-   		client.query("INSERT INTO orders (customer_id,product_id,purchase_date,quantity) VALUES ("+id+","+req.params.id+",'"+req.body.purchase_date+"','"+req.body.quantity+"')")
+   		client.query("INSERT INTO orders (customer_id,product_id,quantity) VALUES ("+id+","+req.params.id+",'"+req.body.quantity+"')")
    		.then((results)=>{
 			var maillist = ['dbms1819team07@gmail.com',req.body.email];
 			var transporter = nodemailer.createTransport({
@@ -149,7 +149,7 @@ app.post('/products/:id/send', function(req, res) {
               return console.log(error);
           }
           console.log('Message %s sent: %s', info.messageId, info.response);;
-          res.redirect('/');
+          res.redirect('/customer/'+id+'');
           });
    		})
    		.catch((err)=>{
@@ -269,8 +269,8 @@ app.get('/admin/customers', function(req, res) {
 app.get('/customer/:id', (req, res) => {
 	client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,customers.street AS street,customers.city AS city,customers.state AS state,customers.zipcode AS zipcode,products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id WHERE customers.id = "+req.params.id+"ORDER BY purchase_date DESC;")
 	.then((result)=>{
-	   console.log('results?', result);
-		res.render('customer_details', {
+	  	console.log('results?', result);
+			res.render('customer_details', {
 			first_name: result.rows[0].first_name,
 			last_name: result.rows[0].last_name,
 			email: result.rows[0].email,
@@ -397,8 +397,8 @@ app.get('/admin/productcreate', function(req, res) {
 
 });
 
-
-
+var moment = require('moment');
+moment('1977-08-20 14:29:00 UTC').format('MMMM DD, YYYY, hh:mm:ss a');
 
 
 
@@ -415,4 +415,4 @@ app.listen(8080,function() {
 	console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
