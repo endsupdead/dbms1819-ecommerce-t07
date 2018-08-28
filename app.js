@@ -29,7 +29,7 @@ const client = new Client({
 
 client.connect()
 	.then(function() {
-		console.log('connected to database!');
+		console.log('Connected to database!');
 	})
 	.catch(function() {
 		console.log('Ayaw ng database! May mali ka sa code');
@@ -45,10 +45,6 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-// app.get('/', (req,res) => {
-// 		res.redirect('/home');
-// 	});
 
 app.get('/', function(req, res) {
   res.redirect('/home');
@@ -80,24 +76,54 @@ app.get('/admin/products', function(req,res) {
 	});
 });
 
-
-
-
-
 app.get('/brands/create', function(req, res) {
 	res.render('brand_create');
 });
+
+
 
 app.post('/insertbrand', function(req,res) { //brand list insert 
 	client.query("INSERT INTO brands (brand_name,brand_description) VALUES ('"+req.body.brand_name+"','"+req.body.brand_description+"')");
 	res.redirect('/admin/brandcreate');
 });
 
+app.get('/admin/categorycreate', function(req, res) {
+	client.query("SELECT * FROM	categories")
+	.then((result)=>{
+	res.render('admin/admin_category_create',result);
+		published: true
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error category list!');
+	});
+});
 
 app.post('/insertcategory', function(req,res){
-	client.query("INSERT INTO categories (category_name) VALUES ('"+req.body.category_name+"')");
-	res.redirect('/admin/categorycreate');
+	client.query("INSERT INTO categories (category_name) VALUES ('"+req.body.category_name+"')")
+		.then((results)=>{
+		console.log ('results?',results);
+		res.render('admin/admin_category_create')
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.redirect('admin/categorycreateerror');
+		});
 });
+
+
+app.get('/admin/categorycreateerror', function(req, res) {
+	client.query("SELECT * FROM	categories")
+	.then((result)=>{
+	res.render('admin/admin_error_category_create',result);
+		published: true
+	})
+	.catch((err)=>{
+		console.log('error',err);
+		res.send('Error category list!');
+	});
+});
+
 
 
 app.get('/products/:id', (req, res) => {
@@ -303,6 +329,9 @@ app.get('/orders', function(req, res) {
  client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id ORDER BY purchase_date DESC;")
 	.then((result)=>{
 	    console.log('results?', result);
+	    var localdate = new Date('purchase_date');
+	    localdate.toString();
+	    local = localdate
 		res.render('orders', result);
 		})
 	.catch((err) => {
@@ -316,13 +345,6 @@ app.get('/orders', function(req, res) {
 app.get('/time', function(req, res) {
 	res.render('time');
 });
-
-app.get('/admin', function(req, res) {
-	res.render('admin/admin', {
-		published: true
-	});
-});
-
 
 
 app.get('/categories', function(req,res){
@@ -340,7 +362,7 @@ app.get('/categories', function(req,res){
 app.get('/admin/categorycreate', function(req, res) {
 	client.query("SELECT * FROM	categories")
 	.then((result)=>{
-	res.render('admin/admin_category_create.handlebars',result);
+	res.render('admin/admin_category_create',result);
 		published: true
 	})
 	.catch((err)=>{
@@ -348,6 +370,9 @@ app.get('/admin/categorycreate', function(req, res) {
 		res.send('Error category list!');
 	});
 });
+
+
+
 
 app.get('/admin/brandcreate', function(req, res) {
 	client.query("SELECT * FROM	brands")
@@ -426,6 +451,11 @@ app.get('/admin/productcreate', function(req, res) {
 
 app.get('/customersss', function(req, res) {
 	res.render('customers/customer', {
+		published: true
+	});
+});
+app.get('/admin', function(req, res) {
+	res.render('admin/admin_home', {
 		published: true
 	});
 });

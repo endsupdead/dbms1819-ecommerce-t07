@@ -2,9 +2,7 @@
 		{{>title_home}}
 </head>
 
-    <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
       {{> customer_nav }}
-    </nav>
 
 <div class="container">
 	<div class="jumbotron mt-2">
@@ -13,12 +11,17 @@
 			<div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
 				<div class="card bg-secondary text-light center">
 					<div class="card-body">
-						<h6 class="card-title">Name:           {{first_name}}{{last_name}}</h6>
-						<h6 class="card-title">E-mail:         {{email}}</h6>
-						<h6 class="card-title">Product  :      {{model_name}}</h6>
-						<h6 class="card-title">Quantity:       {{quantity}}</h6>
-						<h6 class="card-title">Order Date:     {{moment purchase_date format="MMM DD, YYYY HH:mm a"}}</h6>
-						<h6 class="card-title">Order Date:     {{purchase_date().tz("Asia/Manila").format();}}</h6>
+						<p class="card-title">Name:           {{first_name}}{{last_name}}</p>
+						<p class="card-title">E-mail:         {{email}}</p>
+						<p class="card-title">Product  :      {{model_name}}</p>
+						<p class="card-title">Quantity:       {{quantity}}</p>
+						<p class="card-title">Order Date:     {{moment purchase_date format="MMM DD, YYYY HH:mm a"}}</p>
+						<p class="card-title">Order Date:     {{moment purchase_date local=true}}</p>
+						<p class="card-title">Order Date:     {{local}}</p>
+
+
+						
+			{{!-- 			 <script type="text/javascript"></script> --}}
 					</div>
 				</div>
 			</div>

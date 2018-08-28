@@ -8,13 +8,13 @@
 
 <div class="container">
   <div class="jumbotron mt-2">
-    <h1 class="mt-0 mb-5 text-center">Product list</h1>
+    <h2 class="mt-0 mb-4 text-center">Product list</h2>
     <div class="row mx-4">
       {{#each data}}
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4 mx-auto">
         <div class="card bg-secondary text-light center">
           <a href="/products/{{this.id}}" class="text-light">
-            <img class="card-img-top" src="{{this.picture}}" style="width:300px;height:200px;">
+            <img class="card-img-top" src="{{this.picture}}">
             <div class="">
                 <h6 class="card-title text-center my-3">{{this.brand}} {{this.model_name}}</h5>
             </div>
@@ -25,5 +25,4 @@
     </div>
   </div>
 </div>
-
-   <footer>{{> footer }}</footer>
+{{> footer }}
