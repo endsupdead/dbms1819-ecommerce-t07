@@ -4918,10 +4918,10 @@ input[type="button"].btn-block {
 }
 
 .card-title {
-  font-size: 1.09vw; /*ejay*/
-  margin-top: 0.85rem;
+  font-size: 2vw;
+/*  margin-top: 0.85rem;
   margin-bottom: 0.85rem;
-  line-height: 0.6rem;          /*linespacing*/
+  line-height: 0.6rem;*/          /*linespacing*/
 }
 
 .card-subtitle {
