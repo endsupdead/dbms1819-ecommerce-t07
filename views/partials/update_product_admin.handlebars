@@ -1,7 +1,4 @@
-{{>title_home}}
-{{> customer_nav }}
-
-<div class="container pb-5 mb-5">
+]<div class="container pb-5 mb-5">
 	<div class="jumbotron mt-2">
 		<h2>Update Product</h2>
 		<form method="POST" action="/updateproduct/{{rows.id}}">
@@ -9,7 +6,7 @@
 				<div class="form-group">
 					<label class="control-label" for="name">Product Name *</label>
 					<div>
-						<input id="name" name="name" type="text" value="{{rows.name}}" class="form-control" required="">
+						<input id="name" name="name" type="text" value="{{rows.model_name}}" class="form-control" required="">
 					</div>
 				</div>
 
@@ -38,7 +35,7 @@
 					<label class="control-label" for="category">Category *</label>
 					<div>
 						<select class="form-control" id="category_id" name="category_id" required="">
-							{{#each brand.[0]}}
+							{{#each both.[0]}}
 								<option value="{{this.id}}">{{this.category_name}}</option>
 							{{/each}}
 						</select>
@@ -49,7 +46,7 @@
 		    		<label class="control-label" for="brand">Brand *</label>
 		    		<div>
 						<select class="form-control" id="brand_id" name="brand_id" required="">
-		    				{{#each brand.[1]}}
+		    				{{#each both.[1]}}
 								<option value="{{this.id}}">{{this.brand_name}}</option>
 							{{/each}}
 						</select>

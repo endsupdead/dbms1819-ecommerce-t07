@@ -1,13 +1,10 @@
-<head>
   {{>title_home}}
-</head>
 
-  {{> admin_nav }}
-
+  {{> nav_admin }}
 
 <div class="container">
   <div class="jumbotron mt-2">
-    <h2 align="center">Categories</h2>
+    <h1 align="center">Categories</h1>
     {{#each rows}}
       <div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
         <div class="card bg-secondary text-light center">
@@ -19,29 +16,14 @@
     {{/each}}
   </div>
 </div>
-
-
-<div class="container" style="margin-top: 10px;">
-  <div class="jumbotron mt-2" style="background:red ;">
-      <div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
-        <div class="card bg-secondary text-light center">
-          <div class="card-body">
-            <h4 >Category already exist</h4>
-          </div>
-        </div>
-      </div>
-  </div>
-</div>
-
 <div class="container" style="margin-top: 10px;">
   <div class="jumbotron mt-2">
-    <h2>Create Category</h2>
-    
-    <form method="POST" action="/insertcategory">
+    <h1>Create Category</h1>
+    <form method="POST" action="/admincategorycreate">
       <div class="controls">
               <div class="form-group">
                       <label class="control-label" for="category_name">Category Name *</label>
-                      <div class="bruh">
+                      <div>
                         <input id="category_name" name="category_name" type="text" placeholder="Gaming" class="form-control" required="">
                       </div>
               </div>
@@ -56,5 +38,4 @@
     </form>
   </div>
 </div>
-
 {{> footer }}

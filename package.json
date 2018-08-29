@@ -14,7 +14,9 @@
   "author": "Angelika Fillons",
   "license": "",
   "dependencies": {
+    "alert-node": "^1.2.1",
     "body-parser": "^1.18.3",
+    "dialog-node": "^0.1.5",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.11",
