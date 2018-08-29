@@ -1,0 +1,55 @@
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 90px;
+  margin-bottom: 90px;
+}
+
+.card-title {
+  font-size: 16px;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  line-height: 0.6rem;          /*linespacing*/
+}
+
+/*h4, h5, h6
+{
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+h1, h2, h3
+{
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: uppercase;
+}*/
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 45px;
+}
+
+h3 {
+  font-size: 30px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 10px;
+}
+
+h6  {
+  font-size: 5px;
+}
