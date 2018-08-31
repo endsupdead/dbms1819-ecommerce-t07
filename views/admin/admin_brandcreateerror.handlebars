@@ -1,12 +1,21 @@
-{{> title_home }}
+{{>title_home}}
 {{> nav_admin }}
 
+<script>
+function myFunction() {
+    alert("Brand already exists!");
+}
+</script>
+<script src="node_modules/alert-js/alert.min.js"></script>
+<script src="node_modules/ripple-js/ripple.min.js"></script>
+<body onload="myFunction()">
 <div class="container">
   <div class="jumbotron mt-2">
     <h2 align="center">Brands</h2>
     {{#each rows}}
       <div class="col-lg-8 col-md-8 col-sm-8 mb-2 mx-auto">
         <div class="card bg-secondary text-light center">
+          {{!-- <img class="card-img-top" src="{{this.pic}}" alt=""> --}}
           <div class="card-body">
             <h3 class="card-title">{{this.brand_name}}</h3>
             <p class="card-text">
@@ -47,4 +56,5 @@
     </form>
   </div>
 </div>
+</body>
 {{> footer }}

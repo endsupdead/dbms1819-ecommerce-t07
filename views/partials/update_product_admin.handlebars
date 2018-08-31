@@ -35,7 +35,7 @@
 					<label class="control-label" for="category">Category *</label>
 					<div>
 						<select class="form-control" id="category_id" name="category_id" required="">
-							{{#each both.[0]}}
+							{{#each brand.[0]}}
 								<option value="{{this.id}}">{{this.category_name}}</option>
 							{{/each}}
 						</select>
@@ -46,7 +46,7 @@
 		    		<label class="control-label" for="brand">Brand *</label>
 		    		<div>
 						<select class="form-control" id="brand_id" name="brand_id" required="">
-		    				{{#each both.[1]}}
+		    				{{#each brand.[1]}}
 								<option value="{{this.id}}">{{this.brand_name}}</option>
 							{{/each}}
 						</select>
