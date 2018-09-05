@@ -6,13 +6,21 @@
 </button>
 
 <div class="collapse navbar-collapse" id="navbarCollapse">
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
+  <ul class="navbar-nav mr-auto active">
+    <li class="nav-item active dropdown">
+          <a class="dropdown-toggle nav-link" data-toggle="dropdown">Product
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link active" href="/adminproducts">Product List</a></li>
+            <li><a class="nav-link active" href="/adminproductcreate">Create New Product</a></li>
+          </ul>
+    </li>
+{{!--     <li class="nav-item active">
       <a class="nav-link" href="/adminproducts">Product List<span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item active">
       <a class="nav-link" href="/adminproductcreate">Create New Product<span class="sr-only">(current)</span></a>
-    </li>
+    </li> --}}
     <li class="nav-item active">
       <a class="nav-link" href="/adminbrandcreate">Brands<span class="sr-only">(current)</span></a>
     </li>

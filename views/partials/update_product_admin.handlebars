@@ -1,12 +1,12 @@
 ]<div class="container pb-5 mb-5">
 	<div class="jumbotron mt-2">
-		<h2>Update Product</h2>
+		<h3>Update Product</h3>
 		<form method="POST" action="/updateproduct/{{rows.id}}">
 			<div class="controls">
 				<div class="form-group">
-					<label class="control-label" for="name">Product Name *</label>
+					<label class="control-label" for="model_name">Product Name *</label>
 					<div>
-						<input id="name" name="name" type="text" value="{{rows.model_name}}" class="form-control" required="">
+						<input id="model_name" name="model_name" type="text" value="{{rows.model_name}}" class="form-control" required="">
 					</div>
 				</div>
 
@@ -35,16 +35,20 @@
 					<label class="control-label" for="category">Category *</label>
 					<div>
 						<select class="form-control" id="category_id" name="category_id" required="">
-								<option value="{{rows.category_id}}">{{rows.category_name}}</option>
+							{{#each brand.[1]}}
+								<option >{{this.category_name}}</option>
+							{{/each}}
 						</select>
 					</div>
 				</div>
 
 				<div class="form-group">
-		    		<label class="control-label" for="brand">Brand *</label>
-		    		<div>
+	    		<label class="control-label" for="brand">Brand *</label>
+	    		<div>
 						<select class="form-control" id="brand_id" name="brand_id" required="">
-								<option value="{{rows.brand_id}}">{{rows.brand_name}}</option>
+							{{#each brand.[0]}}
+								<option>{{this.brand_name}}</option>
+							{{/each}}
 						</select>
 					</div>
 				</div>
