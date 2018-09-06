@@ -18,6 +18,9 @@ const PORT = process.env.PORT || 8080
 
 const Category = require('./models/category');
 const Customer = require('./models/customer');
+const Order = require('./models/order');
+const Product = require('./models/product');
+const Brand = require('./models/brand');
 
 
 
@@ -157,14 +160,84 @@ app.get('/categories', function (req, res) {
 
 // admin
 app.get('/admin', function(req, res) {
+  var zeroDaysAgo;
+  var oneDaysAgo;
+  var twoDaysAgo;
+  var threeDaysAgo;
+  var fourDaysAgo;
+  var fiveDaysAgo;
+  var sixDaysAgo;
+  var sevenDaysAgo;
   var topCustomersMostOrder;
+  var totalSalesLast7days;
+  var totalSalesLast30days;
+  var mostOrderedProduct;
+  var leastOrderedProduct;
+  var mostOrderedBrand;
+  Order.zeroDaysAgo(client,{},function(result){
+      zeroDaysAgo = result
+  });
+  Order.oneDaysAgo(client,{},function(result){
+      oneDaysAgo = result
+  });
+  Order.twoDaysAgo(client,{},function(result){
+      twoDaysAgo = result
+  });
+  Order.threeDaysAgo(client,{},function(result){
+      threeDaysAgo = result
+  });
+  Order.fourDaysAgo(client,{},function(result){
+      fourDaysAgo = result
+  });
+  Order.fiveDaysAgo(client,{},function(result){
+      fiveDaysAgo = result
+  });
+  Order.sixDaysAgo(client,{},function(result){
+      sixDaysAgo = result
+  });
+  Order.sevenDaysAgo(client,{},function(result){
+      sevenDaysAgo = result
+  });
+  Order.totalSalesLast7days(client,{},function(result){
+      totalSalesLast7days = result
+  });
+  Order.totalSalesLast30days(client,{},function(result){
+      totalSalesLast30days = result
+  });
   Customer.topCustomersMostOrder(client,{},function(result){
       topCustomersMostOrder = result
+  });
+  Product.mostOrderedProduct(client,{},function(result){
+      mostOrderedProduct = result
+  });
+  Product.leastOrderedProduct(client,{},function(result){
+      leastOrderedProduct = result
+  });
+  Brand.mostOrderedBrand(client,{},function(result){
+      mostOrderedBrand = result
+  });
+  Category.mostOrderedCategory(client,{},function(result){
+      mostOrderedCategory = result
   });
   Customer.topCustomersHighestPayment(client,{},function(result){
       res.render('admin/admin', {
       topCustomersHighestPayment : result,
-      topCustomersMostOrder : topCustomersMostOrder
+      zeroDaysAgo : zeroDaysAgo[0].count,
+      oneDaysAgo : oneDaysAgo[0].count,
+      twoDaysAgo : twoDaysAgo[0].count,
+      threeDaysAgo : threeDaysAgo[0].count,
+      fourDaysAgo : fourDaysAgo[0].count,
+      fiveDaysAgo : fiveDaysAgo[0].count,
+      sixDaysAgo : sixDaysAgo[0].count,
+      sevenDaysAgo : sevenDaysAgo[0].count,
+      totalSalesLast7days : totalSalesLast7days[0].sum,
+      totalSalesLast30days : totalSalesLast30days[0].sum,
+      topCustomersMostOrder : topCustomersMostOrder,
+      mostOrderedProduct : mostOrderedProduct,
+      leastOrderedProduct : leastOrderedProduct,
+      mostOrderedBrand : mostOrderedBrand,
+      mostOrderedCategory : mostOrderedCategory,
+
     });
   });
 });
@@ -381,4 +454,4 @@ app.listen(8080,function() {
   console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
