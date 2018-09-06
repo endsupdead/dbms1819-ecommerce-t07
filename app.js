@@ -8,6 +8,8 @@ var Handlebars = require("handlebars");
 var MomentHandler = require("handlebars.moment");
 var dateFormat = require('dateformat');
 var moment = require('moment');
+var NumeralHelper = require("handlebars.numeral");
+NumeralHelper.registerHelpers(Handlebars);
 moment().format();
 const renderLayouts = require('layouts');
 MomentHandler.registerHelpers(Handlebars);
@@ -15,6 +17,7 @@ const PORT = process.env.PORT || 8080
 
 
 const Category = require('./models/category');
+const Customer = require('./models/customer');
 
 
 
@@ -154,7 +157,11 @@ app.get('/categories', function (req, res) {
 
 // admin
 app.get('/admin', function(req, res) {
-  res.render('admin/admin');
+  Customer.topCustomersHighestPayment(client,{},function(result){
+      res.render('admin/admin', {
+      topCustomersHighestPayment : result
+    });
+  });
 });
 
 // product list
@@ -347,7 +354,7 @@ app.get('/admincustomers', function(req, res) {
 
 // admin customer details
 app.get('/admincustomer/:id', (req, res) => {
-  client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,customers.street AS street,customers.city AS city,customers.state AS state,customers.zipcode AS zipcode,products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id WHERE customers.id = "+req.params.id+" ORDER BY purchase_date DESC;")
+  client.query("SELECT customers.first_name AS first_name,customers.last_name AS last_name,customers.email AS email,customers.street AS street,customers.city AS city,customers.state AS state,customers.zipcode AS zipcode, products.price AS price, products.model_name AS model_name,orders.quantity AS quantity,orders.purchase_date AS purchase_date FROM orders INNER JOIN customers ON customers.id=orders.customer_id INNER JOIN products ON products.id=orders.product_id WHERE customers.id = "+req.params.id+" ORDER BY purchase_date DESC;")
   .then((result)=>{
       res.render('admin/admin_customerdetails', {
       first_name: result.rows[0].first_name,
