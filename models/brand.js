@@ -16,7 +16,7 @@ var Brand = {
           ON products.brand_id=brands.id
           GROUP BY brand_name
           ORDER BY SUM(orders.quantity) DESC
-          LIMIT 10
+          LIMIT 3;
       `;
       client.query(query, (req, result) => {
         callback(result.rows)
