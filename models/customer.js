@@ -13,6 +13,20 @@ var Customer = {
         console.log(result.rows)
         callback(result.rows)
       });
+    },
+    topCustomersMostOrder: (client,filter,callback) => {
+      const query =  `
+          SELECT first_name, last_name, 
+          COUNT (orders.customer_id)
+          FROM customers
+          INNER JOIN orders ON orders.customer_id = customers.id
+          GROUP BY customer_id, customers.first_name, customers.last_name
+          ORDER BY COUNT DESC LIMIT 10;
+      `;
+      client.query(query,(req,result)=>{
+        console.log(result.rows)
+        callback(result.rows)
+      });
     }
 };
 

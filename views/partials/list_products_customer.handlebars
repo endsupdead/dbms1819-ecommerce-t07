@@ -4,14 +4,15 @@
     <div class="row mx-4">
       {{#each rows}}
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4 mx-auto">
+        <a href="/products/{{id}}" class="text-light">
         <div class="card bg-secondary text-light center">
-          <a href="/products/{{id}}" class="text-light">
             <img class="card-img-top" src="{{picture}}" height="210" width="490">
-            <div class="">
-                <h6 class="card-title text-center">{{model_name}}</h5>
+            <div>
+                <h5 class="card-title text-center">{{model_name}}</h5><hr>
+                <h5 class="card-title text-center">{{brand_name}}</h5>
             </div>
-          </a>
         </div>
+          </a>
       </div>
       {{/each}}
     </div>

@@ -56,7 +56,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/home', function(req,res) {
-  client.query("SELECT id, model_name, picture FROM products")
+  client.query("SELECT products.id, model_name, picture, brand_name FROM products INNER JOIN brands ON brands.id = products.brand_id;")
     .then((result) =>{
       res.render('customer/customer_home', result);
     })
@@ -157,9 +157,14 @@ app.get('/categories', function (req, res) {
 
 // admin
 app.get('/admin', function(req, res) {
+  var topCustomersMostOrder;
+  Customer.topCustomersMostOrder(client,{},function(result){
+      topCustomersMostOrder = result
+  });
   Customer.topCustomersHighestPayment(client,{},function(result){
       res.render('admin/admin', {
-      topCustomersHighestPayment : result
+      topCustomersHighestPayment : result,
+      topCustomersMostOrder : topCustomersMostOrder
     });
   });
 });
@@ -239,7 +244,7 @@ app.get('/adminproductcreate', function(req, res) {
 app.post('/adminproductcreate', function(req, res) {
   client.query("INSERT INTO products (model_name, specification, price, picture, category_id, brand_id) VALUES ('"+req.body.model_name+"','"+req.body.specification+"', '"+req.body.price+"', '"+req.body.picture+"', '"+req.body.category_id+"', '"+req.body.brand_id+"')")
     .then((results)=>{
-      res.render('admin/admin_productcreate')
+      res.redirect('/adminproductcreate')
     })
     .catch((err) => {
       console.log('error',err);
@@ -286,7 +291,7 @@ app.get('/adminbrandcreate', function(req, res) {
 app.post('/adminbrandcreate', function(req,res) { //brand list insert 
   client.query("INSERT INTO brands (brand_name,brand_description) VALUES ('"+req.body.brand_name+"','"+req.body.brand_description+"')")
     .then((results)=>{
-      res.render('admin/admin_brandcreate')
+      res.redirect('/adminbrandcreate')
     })
     .catch((err) => {
       res.redirect('/adminbrandcreater');
@@ -315,10 +320,10 @@ app.get('/admincategorycreate', function (req, res) {
 app.post('/admincategorycreate', function(req,res){
   client.query("INSERT INTO categories (category_name) VALUES ('"+req.body.category_name+"')")
     .then((results)=>{
-    res.render('admin/admin_categorycreate')
+        res.redirect('/admincategorycreate')
     })
     .catch((err) => {
-      res.redirect('/admincategorycreater');
+        res.redirect('/admincategorycreater');
     });
 });
 
@@ -376,4 +381,4 @@ app.listen(8080,function() {
   console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);
