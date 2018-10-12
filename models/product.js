@@ -19,11 +19,11 @@ var Product = {
     const query =  `
           SELECT products.model_name AS model_name,
           ROW_NUMBER() OVER (ORDER BY SUM(orders.quantity) ASC) AS ROW ,
-          SUM(orders.quantity) AS TOTAL
+          SUM(orders.quantity) AS COUNT
           FROM orders
-          INNER JOIN products ON orders.product_id = products.id
+          LEFT JOIN products ON orders.product_id = products.id
           GROUP BY model_name
-          ORDER BY SUM(orders.quantity) ASC
+          ORDER BY COUNT(orders.quantity) ASC
           LIMIT 10;
       `;
       client.query(query, (req, result) => {

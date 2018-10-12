@@ -43,3 +43,6 @@ CREATE TABLE "orders" (
   "purchase_date" timestamp default current_timestamp,
   "quantity" INT
 );
+
+
+-- angel.acf_22

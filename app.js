@@ -4,23 +4,27 @@ const { Client } = require('pg');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-var Handlebars = require("handlebars");
-var MomentHandler = require("handlebars.moment");
-var dateFormat = require('dateformat');
-var moment = require('moment');
-var NumeralHelper = require("handlebars.numeral");
-NumeralHelper.registerHelpers(Handlebars);
-moment().format();
+const Handlebars = require("handlebars");
+const MomentHandler = require("handlebars.moment");
+const dateFormat = require('dateformat');
+const moment = require('moment');
+const NumeralHelper = require("handlebars.numeral");
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+
 const renderLayouts = require('layouts');
-MomentHandler.registerHelpers(Handlebars);
-const PORT = process.env.PORT || 8080
-
-
 const Category = require('./models/category');
 const Customer = require('./models/customer');
 const Order = require('./models/order');
 const Product = require('./models/product');
 const Brand = require('./models/brand');
+
+const PORT = process.env.PORT || 8080
+moment().format();
+MomentHandler.registerHelpers(Handlebars);
+NumeralHelper.registerHelpers(Handlebars);
+
+
 
 
 
@@ -51,12 +55,34 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
+
+
+
+
+
+
+
 // customer
 
 // product list
-app.get('/', function(req, res) {
-  res.redirect('/home');
+app.get('/login', function(req, res) {
+  res.render('customer/customer_login');
 });
+
+app.post('/login', function(req, res) {
+  console.log('login data', req.body);
+  res.render('customer/customer_login');
+});
+
+app.get('/customer/signup', function(req, res) {
+  res.render('customer/customer_signup');
+});
+
+app.post('/customer/signup', function(req, res) {
+  res.render('customer/customer_signup');
+});
+
 
 app.get('/home', function(req,res) {
   client.query("SELECT products.id, model_name, picture, brand_name FROM products INNER JOIN brands ON brands.id = products.brand_id;")
@@ -454,4 +480,4 @@ app.listen(8080,function() {
   console.log('Server started at port 8080');
 });
 
-app.listen(PORT);
+// app.listen(PORT);

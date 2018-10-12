@@ -1,0 +1,29 @@
+{{> title_home }}
+{{> nav_customer }}
+
+<div class="container pb-5 mb-5">
+  <div class="jumbotron mt-2">
+    <h3>Log-in</h3>
+    <form method="POST" action="/login/{{rows.id}}">
+      <div class="control-label">
+
+            <div class="form-group">
+              <label class="control-label" for="email">Email</label>
+              <div>
+                <input id="email" name="email" type="text" placeholder="email@email.com" class="form-control" required="" >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="password">Password</label>
+              <div>
+                <input id="password" name="password" type="password" placeholder="Password" class="form-control" required="" ="" >
+              </div>
+            </div>
+                <button type="submit" class="btn btn-primary btn-lg" title="Submit contact form">Log-in</button>
+      </div>
+    </form> <br> <a href="/customer/signup"><button class="btn btn-primary btn-lg" title="Submit contact form">Sign-up</button></a>
+  </div>
+</div>
+<div class="extraa"></div>
+{{> footer }}

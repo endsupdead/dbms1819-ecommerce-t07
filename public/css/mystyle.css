@@ -15,6 +15,15 @@
   line-height: 0.6rem;          /*linespacing*/
 }
 
+.extra {
+  height: 110px;
+}
+.extraa {
+  height: 220px;
+}
+.beng {
+  line-height: normal;
+}
 /*h4, h5, h6
 {
   font-family: 'Raleway', sans-serif;
