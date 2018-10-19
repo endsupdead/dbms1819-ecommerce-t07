@@ -17,58 +17,60 @@
             <div class="form-group">
               <label class="control-label h6" for="first_name">First Name</label>
               <div>
-                <input id="first_name" name="first_name" type="text" placeholder="First Name" class="form-control" required="" >
+                <input id="first_name" name="first_name" type="text" placeholder="{{first_name}}" class="form-control" required="" readonly="" >
               </div>
             </div>
             
             <div class="form-group">
-              <label class="control-label" for="last_name">Last Name</label>
+              <label class="control-label h6" for="last_name">Last Name</label>
               <div>
-                <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="form-control" required="" >
+                <input id="last_name" name="last_name" type="text" placeholder="{{last_name}}" class="form-control" required="" readonly="" >
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="street">Street</label>
+              <label class="control-label h6" for="street">Street</label>
               <div>
-                <input id="street" name="street" type="text" placeholder="Street" class="form-control" required="" >
+                <input id="street" name="street" type="text" placeholder="{{street}}" class="form-control" required="" readonly="" >
               </div>
             </div>
             
             <div class="form-group">
-              <label class="control-label" for="city">City</label>
+              <label class="control-label h6" for="city">City</label>
               <div>
-                <input id="city" name="city" type="text" placeholder="City" class="form-control" required="" >
+                <input id="city" name="city" type="text" placeholder="{{city}}" class="form-control" required="" readonly="" >
               </div>
             </div>
             
             <div class="form-group">
-              <label class="control-label" for="state">State</label>
+              <label class="control-label h6" for="state">State</label>
               <div>
-                <input id="state" name="state" type="text" placeholder="State" class="form-control" required="" >
+                <input id="state" name="state" type="text" placeholder="{{state}}" class="form-control" required="" readonly="" >
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="email">Email</label>
+              <label class="control-label h6" for="email">Email</label>
               <div>
-                <input id="email" name="email" type="text" placeholder="email@email.com" class="form-control" required="" >
+                <input id="email" name="email" type="text" placeholder="{{email}}" class="form-control" required="" readonly="" >
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="model_name">Model Name</label>
+              <label class="control-label h6" for="zipcode">Zipcode</label>
               <div>
-                <input id="model_name" name="model_name" type="text" value="{{rows.model_name}}" class="form-control" readonly="" >
+                <input id="zipcode" name="zipcode" type="number" class="form-control" placeholder="{{zipcode}}" required="" readonly="" >
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="zipcode">Zipcode</label>
+              <label class="control-label h6" for="model_name">Model Name</label>
               <div>
-                <input id="zipcode" name="zipcode" type="number" class="form-control" required="" >
+                <input id="model_name" name="product_id" type="text" value="{{rows.id}}" class="form-control" readonly="" hidden="">
+                <input id="model_name" name="product_name" type="text" value="{{rows.model_name}}" class="form-control" readonly="" >
               </div>
             </div>
+
             <div class="">
               <div class="text-center">
                 <button type="submit" class="btn btn-primary btn-lg" title="Submit contact form">Order</button>

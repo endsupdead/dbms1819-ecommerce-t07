@@ -4,20 +4,20 @@
 <div class="container pb-5 mb-5">
   <div class="jumbotron mt-2">
     <h3>Sign-up</h3>
-    <form method="POST" action="/signup/{{rows.id}}">
+    <form method="POST" action="/customer/signup">
       <div class="control-label">
 
             <div class="form-group">
               <label class="control-label" for="firstname">First Name</label>
               <div>
-                <input id="firstname" name="firstname" type="text" placeholder="First Name" class="form-control" required="" >
+                <input id="firstname" name="first_name" type="text" placeholder="First Name" class="form-control" required="" >
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label" for="lastname">Last Name</label>
               <div>
-                <input id="lastname" name="lastname" type="text" placeholder="First Name" class="form-control" required="" >
+                <input id="lastname" name="last_name" type="text" placeholder="Last Name" class="form-control" required="" >
               </div>
             </div>
 
@@ -32,6 +32,34 @@
               <label class="control-label" for="password">Password</label>
               <div>
                 <input id="password" name="password" type="password" placeholder="Password" class="form-control" required="" ="" >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="street">Street</label>
+              <div>
+                <input id="street" name="street" type="text" placeholder="Street" class="form-control" required="" ="" >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="city">City</label>
+              <div>
+                <input id="city" name="city" type="text" placeholder="City" class="form-control" required="" ="" >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="state">State</label>
+              <div>
+                <input id="state" name="state" type="text" placeholder="State" class="form-control" required="" ="" >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="zipcode">Zipcode</label>
+              <div>
+                <input id="zipcode" name="zipcode" type="text" placeholder="Zipcode" class="form-control" required="" ="" >
               </div>
             </div>
 

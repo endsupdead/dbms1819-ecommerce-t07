@@ -30,6 +30,20 @@ var Product = {
         callback(result.rows)
       });
   },
+  productLists: (client, filter, callback) => {
+    const query =  `
+          SELECT
+            products.id,
+            model_name, picture,
+            brand_name
+          FROM products
+            INNER JOIN brands
+              ON brands.id = products.brand_id
+      `;
+      client.query(query, (req, result) => {
+        callback(result.rows)
+      });
+  },
 };
 
 module.exports = Product;

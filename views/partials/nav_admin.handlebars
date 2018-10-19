@@ -30,16 +30,33 @@
     <li class="nav-item active">
       <a class="nav-link" href="/admincustomers">Customers List<span class="sr-only">(current)</span></a>
     </li>
+    {{!-- {{#if admin}} --}}
     <li class="nav-item active">
       <a class="nav-link" href="/adminorders">Orders List<span class="sr-only">(current)</span></a>
     </li>
-    </ul> 
-    <ul class="nav navbar-nav navbar-right">
+{{!--     {{/if}}
+    {{#if customer}}
     <li class="nav-item active">
-      <a class="nav-link" href="/admin">Admin<span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="/adminorders">Orders List<span class="sr-only">(current)</span></a>
     </li>
-    <li class="nav-item active navbar-right">
-      <a class="nav-link" href="/">Costumer<span class="sr-only">(current)</span></a>
+    {{/if}} --}}
+    </ul> 
+
+    <ul class="nav navbar-nav navbar-right">
+{{!--     <li class="nav-item active dropdown">
+      <a class="dropdown-toggle nav-link" data-toggle="dropdown">Product<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a class="nav-link active" href="/adminproducts">Product List</a></li>
+          <li><a class="nav-link active" href="/adminproductcreate">Create New Product</a></li>
+        </ul>
+    </li> --}}
+    {{#if admin}}
+    <li class="nav-item">
+      <a class="nav-link">Hello, {{first_name}} :)</a>
+    </li>
+    {{/if}}
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
     </li>
     </ul>
 </div>

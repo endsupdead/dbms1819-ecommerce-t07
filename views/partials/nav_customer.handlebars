@@ -13,20 +13,32 @@
     <li class="nav-item active">
       <a class="nav-link" href="/brands">Brands<span class="sr-only">(current)</span></a>
     </li>
+    {{!-- {{#if customer}} --}}
     <li class="nav-item active">
       <a class="nav-link" href="/categories">Categories<span class="sr-only">(current)</span></a>
-    </li>{{!-- 
-    <li class="nav-item active">
+    </li>
+    {{!-- {{/if}} --}}
+    {{!--<li class="nav-item active">
       <a class="nav-link" href="/customer/{{this.id}}">My Orders<span class="sr-only">(current)</span></a>
     </li> --}}
   </ul> 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item active">
-            <a class="nav-link" href="/admin">Admin<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active navbar-right">
-            <a class="nav-link" href="/">Costumer<span class="sr-only">(current)</span></a>
-          </li>
-    </ul>
+      
+  <ul class="nav navbar-nav navbar-right">
+{{!--     {{#if customer}}
+    <li class="nav-item active dropdown">
+      <a class="dropdown-toggle nav-link" data-toggle="dropdown">Product<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a class="nav-link active" href="/adminproducts">Product List</a></li>
+          <li><a class="nav-link active" href="/adminproductcreate">Create New Product</a></li>
+        </ul>
+    </li> 
+    {{/if}} --}}    
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
+    </li>   
+    <li class="nav-item">
+      <a class="nav-link" href="/login">Login/Signup</a>
+    </li>
+  </ul>
 </div>
 </nav>
